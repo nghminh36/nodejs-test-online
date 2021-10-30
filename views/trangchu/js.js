@@ -2,6 +2,9 @@ $(document).ready(function() {
     $("#log").click(() => {
         location.assign('login');
     })
+    $("#log-admin").click(() => {
+        location.assign('login-admin');
+    })
     $("#reg").click(() => {
         location.assign('register');
     })

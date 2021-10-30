@@ -158,6 +158,38 @@ app.post('/login', (req, res) => {
         }
     })
 })
+
+//login admin
+app.use('/login-admin', (req, res, next) => {
+    if (req.session.username) {
+        res.redirect('../home');
+        return;
+    }
+    next();
+})
+app.get('/login-admin', (req, res) => {
+    res.render('login-admin');
+})
+
+app.post('/login-admin', (req, res) => {
+    req.body.password = md5(req.body.password);
+    connection.query(parse("SELECT * FROM `admin` WHERE `username`='%s' AND `password`='%s' LIMIT 1", req.body.username, req.body.password), (error, data) => {
+        if (error)
+            console.log(error);
+        if (data.length == 1) { // dang nhap ok
+            if (data[0].email_auth) {
+                res.render('login-admin', { error: 'Bạn chưa xác thực gmail của bạn!' });
+            } else {
+                req.session.username = req.body.username;
+                req.session.name = data[0].name;
+                req.session.type = data[0].type;
+                res.redirect('../home');
+            }
+        } else { // dang nhap fail
+            res.render('login-admin', { error: "Sai tài khoản hoặc mật khẩu!" });
+        }
+    })
+})
 //register
 
 app.get('/register', (req, res) => {
@@ -701,6 +733,11 @@ app.post('/home/giaovien/data', (req, res) => {
 
             }
             break;
+        
+        case "xoade":
+            {
+                connection.query(parse("DELETE FROM `test` WHERE `id`='%s'", req.body.id))
+            }
     }
 
 })
