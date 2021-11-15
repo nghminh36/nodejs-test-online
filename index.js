@@ -88,17 +88,18 @@ connection.connect(err => {
     console.log('Connected to the databse!');
 })
 
-let transporter = nodemailer.createTransport({
+//Mailer
+var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'pass.hastudents@gmail.com',
-        pass: '@@hatest'
+        user: 'hieutest196@gmail.com',
+        pass: 'magentono1'
     }
 });
 
 function SendMail(email, username, link) {
     let mailOptions = {
-        from: 'visualpascalc@gmail.com',
+        from: 'Minh is me',
         to: email,
         subject: 'Xac minh Gmail - TB TEST',
         text: 'Bấm vào đây để xác nhận: ' + link
